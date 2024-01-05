@@ -11,7 +11,7 @@ class Player:
         self.angle = 0
 
         self.rotation_speed_current = 0
-        self.rotation_speed_max = 3
+        self.rotation_speed_max = 30
         self.movement_speed_current = 0
         self.movement_speed_max = 10
 
@@ -31,17 +31,14 @@ class Player:
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
-        if self.rotation_speed_current >= 0:
-            if keys[self.left] and self.rotation_speed_current < self.rotation_speed_max:
-                self.rotation_speed_current += 0.2
-            elif self.rotation_speed_current != 0:
-                self.rotation_speed_current -= 0.2
-        if self.rotation_speed_current <= 0:
-            if keys[self.right] and self.rotation_speed_current > self.rotation_speed_max * -1:
-                self.rotation_speed_current -= 0.2
-            elif self.rotation_speed_current != 0:
-                self.rotation_speed_current += 0.2
-        self.angle += self.rotation_speed_current
+        if keys[self.left] and self.rotation_speed_current < self.rotation_speed_max:
+            self.rotation_speed_current += 3
+        elif keys[self.right] and self.rotation_speed_current > -self.rotation_speed_max:
+            self.rotation_speed_current -= 3
+        elif self.rotation_speed_current != 0:
+            self.rotation_speed_current += 3 if self.rotation_speed_current < 0 else -3
+            
+        self.angle += self.rotation_speed_current / 10
 
     def update(self):
         self.image_rotate = pygame.transform.rotate(self.image, self.angle)
