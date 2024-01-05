@@ -6,7 +6,7 @@ from modules.spirits.player import Player
 
 class Game:
     def __init__(self):
-        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, 120, 120, pygame.K_q, pygame.K_e)
+        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, 120, 120, pygame.K_w, pygame.K_q, pygame.K_e)
 
     def update(self):
         self.player.update()
