@@ -1,5 +1,4 @@
 # config.py
-
 class Config:
     # window
     WINDOW_WIDTH = 1920
