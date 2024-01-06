@@ -34,7 +34,7 @@ class Game:
     def update(self, keys, time) -> None:
         self.health_bar.update(self.player.health)
 
-        if int(time) % 2500 == 0:
+        if int(time) % 500 == 0:
             self.asteroids.append(Asteroid())
         
         if self.bullet_fire_cooldown < time - self.bullet_fire_last and len(self.bullets) < 3:

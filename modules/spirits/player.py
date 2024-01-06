@@ -33,9 +33,9 @@ class Player:
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
         if self.movement_speed_current == 0:
-            self.rotation_speed_current = 1
+            self.rotation_speed_current = 1.25
         else:
-            self.rotation_speed_current = 3
+            self.rotation_speed_current = 2.5
 
         if keys[self.key_left]:
             self.angle += self.rotation_speed_current

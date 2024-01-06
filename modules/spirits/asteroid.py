@@ -8,7 +8,7 @@ class Asteroid:
         self.x = random.choice([random.randint(0, 500), random.randint(1500, 1920)])
         self.y = random.choice([random.randint(0, 500), random.randint(750, 1080)])
 
-        self.movement_speed = random.randint(3, 5)
+        self.movement_speed = random.randint(5, 7)
         self.direction = random.randint(1, 359)
         self.angle_rotate = random.randint(1, 359)       
         self.size = random.choice(["small", "medium", "large"])
