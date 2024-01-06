@@ -6,10 +6,12 @@ from modules.spirits.player import Player
 from modules.spirits.asteroid import Asteroid
 
 class Game:
-    def __init__(self):
-        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, 120, 120, pygame.K_w, pygame.K_a, pygame.K_d)
+    def __init__(self) -> None:
+        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d)
 
         self.asteroids = [
+            Asteroid(),
+            Asteroid(),
             Asteroid(),
             Asteroid(),
             Asteroid(),
@@ -17,7 +19,7 @@ class Game:
             Asteroid()
         ]
 
-    def update(self):
+    def update(self) -> None:
         self.player.update()
         self.player.movement(pygame.key.get_pressed())
 
@@ -29,9 +31,9 @@ class Game:
         for i, asteroid1 in enumerate(self.asteroids):
             for j, asteroid2 in enumerate(self.asteroids):
                 if i != j:
-                    asteroid1.check_collision(asteroid2.rect)
+                    asteroid1.check_collision(asteroid2)
 
-    def draw(self, surface):
+    def draw(self, surface) -> None:
         surface.fill(Color.BLACK)
         self.player.draw(surface)
 
