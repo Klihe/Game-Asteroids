@@ -7,13 +7,13 @@ class Health_Bar:
         self.y = y
 
     def update(self, health):
-        if health <= 0:
+        if health <= 10:
             color = "black"
-        elif health <= 25:
-            color = "red"
         elif health <= 50:
+            color = "red"
+        elif health <= 70:
             color = "orange"
-        elif health <= 75:
+        elif health <= 90:
             color = "yellow"
         elif health <= 100:
             color = "green"

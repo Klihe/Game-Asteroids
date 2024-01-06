@@ -37,7 +37,7 @@ class Game:
                 if bullet.rect.x > Config.WINDOW_WIDTH or bullet.rect.x < 0 or bullet.rect.y > Config.WINDOW_HEIGHT or bullet.rect.y < 0:
                     self.bullets.pop(self.bullets.index(bullet))
 
-        self.player.movement(keys)
+        self.player.action(keys)
         self.player.update()
 
         for bullet in self.bullets:
