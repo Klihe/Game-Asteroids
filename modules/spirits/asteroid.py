@@ -50,4 +50,4 @@ class Asteroid:
         self.image_center = self.image_rotate.get_rect(center=self.rect.center)
 
     def draw(self, surface) -> None:
-        surface.blit(self.image_rotate, self.image_center)
+        surface.blit(self.image_rotate, self.rect)

@@ -8,14 +8,14 @@ class Player:
         self.y = y
         self.angle = 0
 
-        self.hit_detection_cooldown = 1000
+        self.hit_detection_cooldown = 500
         self.last_hit = 0
+        self.body_damage = 30
 
         self.health = 100
         self.rotation_speed_current = 0
-        self.rotation_speed_max = 30
         self.movement_speed_current = 0
-        self.movement_speed_max = 7
+        self.movement_speed_max = 10
 
         self.key_straight = key_straight
         self.key_left = key_left
@@ -32,21 +32,23 @@ class Player:
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
-        if keys[self.key_left] and self.rotation_speed_current < self.rotation_speed_max:
-            self.rotation_speed_current += 3
-        elif keys[self.key_right] and self.rotation_speed_current > -self.rotation_speed_max:
-            self.rotation_speed_current -= 3
-        elif self.rotation_speed_current != 0:
-            self.rotation_speed_current += 3 if self.rotation_speed_current < 0 else -3
+        if self.movement_speed_current == 0:
+            self.rotation_speed_current = 1
+        else:
+            self.rotation_speed_current = 3
 
-        self.angle += self.rotation_speed_current / 10
+        if keys[self.key_left]:
+            self.angle += self.rotation_speed_current
+        elif keys[self.key_right]:
+            self.angle -= self.rotation_speed_current
 
     def check_collision(self, other_spirit) -> None:
         if self.hit_detection_cooldown < pygame.time.get_ticks() - self.last_hit:
             if self.rect.colliderect(other_spirit.rect):
                 self.last_hit = pygame.time.get_ticks()
                 self.health -= other_spirit.damage
-                print(self.health)
+                other_spirit.health -= self.body_damage
+                print(other_spirit.health)
                 self.image = pygame.image.load("source/rocket_hit.png")
             else:
                 self.image = pygame.image.load("source/rocket.png")
