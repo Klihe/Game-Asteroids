@@ -8,6 +8,10 @@ class Player:
         self.y = y
         self.angle = 0
 
+        self.damage_detection_cooldown = 2500
+        self.last_damage = 0
+
+        self.health = 100
         self.rotation_speed_current = 0
         self.rotation_speed_max = 30
         self.movement_speed_current = 0
@@ -18,7 +22,6 @@ class Player:
         self.key_right = key_right
 
         self.image = pygame.image.load("source/rocket.png")
-        self.rect = self.image.get_rect(center=(self.x, self.y))
 
     def movement(self, keys) -> None:
         if keys[self.key_straight] and self.movement_speed_current < self.movement_speed_max:
@@ -29,29 +32,29 @@ class Player:
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
-        if keys[self.key_left] and self.rotation_speed_current < self.rotation_speed_max:
-            self.rotation_speed_current += 3
-        elif keys[self.key_right] and self.rotation_speed_current > -self.rotation_speed_max:
-            self.rotation_speed_current -= 3
-        elif self.rotation_speed_current != 0:
-            self.rotation_speed_current += 3 if self.rotation_speed_current < 0 else -3
+        if self.movement_speed_current != 0:
+            if keys[self.key_left] and self.rotation_speed_current < self.rotation_speed_max:
+                self.rotation_speed_current += 3
+            elif keys[self.key_right] and self.rotation_speed_current > -self.rotation_speed_max:
+                self.rotation_speed_current -= 3
+            elif self.rotation_speed_current != 0:
+                self.rotation_speed_current += 3 if self.rotation_speed_current < 0 else -3
 
-        self.angle += self.rotation_speed_current / 10
-
-    def fire(self, keys, func) -> None:
-        if keys[self.fire]:
-            func()
+            self.angle += self.rotation_speed_current / 10
 
     def check_collision(self, other_spirit) -> None:
-        if self.rect.colliderect(other_spirit):
-            print("Collision")
+        if self.damage_detection_cooldown < pygame.time.get_ticks() - self.last_damage:
+            if self.center.colliderect(other_spirit):
+                self.last_damage = pygame.time.get_ticks()
+                self.health -= 25
+                self.image = pygame.image.load("source/rocket_hit.png")
+            else:
+                self.image = pygame.image.load("source/rocket.png")
+        print(self.health)
 
     def update(self) -> None:
         self.image_rotate = pygame.transform.rotate(self.image, self.angle)
-        self.image_center = self.image_rotate.get_rect(center=self.rect.center)
-        
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.center = self.image_rotate.get_rect(center=(self.x, self.y))
 
     def draw(self, surface) -> None:
-        surface.blit(self.image_rotate, self.image_center)
+        surface.blit(self.image_rotate, self.center)
