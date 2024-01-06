@@ -10,11 +10,11 @@ class Game:
         self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, 120, 120, pygame.K_w, pygame.K_a, pygame.K_d)
 
         self.asteroids = [
-            Asteroid(100, 500, 30, 90),
-            Asteroid(200, 400, 30, 80),
-            Asteroid(300, 300, 30, 70),
-            Asteroid(400, 200, 30, 60),
-            Asteroid(500, 100, 30, 50)
+            Asteroid(),
+            Asteroid(),
+            Asteroid(),
+            Asteroid(),
+            Asteroid()
         ]
 
     def update(self):
@@ -24,6 +24,12 @@ class Game:
         for asteroid in self.asteroids:
             asteroid.update()
             asteroid.movement()
+            self.player.check_collision(asteroid.rect)
+
+        for i, asteroid1 in enumerate(self.asteroids):
+            for j, asteroid2 in enumerate(self.asteroids):
+                if i != j:
+                    asteroid1.check_collision(asteroid2.rect)
 
     def draw(self, surface):
         surface.fill(Color.BLACK)
