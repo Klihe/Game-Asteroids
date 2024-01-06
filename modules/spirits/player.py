@@ -32,7 +32,6 @@ class Player:
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
-        # if self.movement_speed_current != 0:
         if keys[self.key_left] and self.rotation_speed_current < self.rotation_speed_max:
             self.rotation_speed_current += 3
         elif keys[self.key_right] and self.rotation_speed_current > -self.rotation_speed_max:
