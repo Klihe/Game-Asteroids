@@ -26,16 +26,13 @@ class Asteroid:
         self.rect.x = self.x
         self.rect.y = self.y
 
-    def check_collision(self, other_spirit) -> None:
+    def check_collision_asteroid(self, other_spirit) -> None:
         cooldown = pygame.time.get_ticks()
         if self.rect.colliderect(other_spirit.rect) and cooldown > 250:
             self.direction += 30
             self.movement_speed = -self.movement_speed
             cooldown = 0
-                
-            self.rect.x = self.x
-            self.rect.y = self.y
-
+            
     def update(self) -> None:
         self.angle_rotate += 1
         self.image_rotate = pygame.transform.rotate(self.image, self.angle_rotate)
