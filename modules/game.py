@@ -15,8 +15,8 @@ class Game:
         self.bullet_magazine = Ammo(Config.WINDOW_WIDTH//2 - 147, Config.WINDOW_HEIGHT - 75, 10)
 
         self.bullets = []
-        self.bullet_reload_cooldown = 2500
-        self.bullet_reload_last = 2500
+        self.bullet_reload_cooldown = 1000
+        self.bullet_reload_last = 1000
         self.bullet_reloading = False
         self.bullet_fire_cooldown = 125
         self.bullet_fire_last = 0
@@ -34,7 +34,7 @@ class Game:
     def update(self, keys, time) -> None:
         self.health_bar.update(self.player.health)
 
-        if int(time) % 500 == 0:
+        if int(time) % 100 == 0:
             self.asteroids.append(Asteroid())
         
         if self.bullet_fire_cooldown < time - self.bullet_fire_last and len(self.bullets) < 3:
@@ -50,8 +50,9 @@ class Game:
             self.bullet_reload_last = time
             self.bullet_magazine.ammo = 10
             self.bullet_reloading = False
-        elif (keys[pygame.K_r] and not self.bullet_reloading and self.bullet_magazine.ammo < 10) or self.bullet_magazine.ammo == 0:
+        elif (keys[pygame.K_r] and self.bullet_magazine.ammo < 10) or (self.bullet_magazine.ammo == 0) and not self.bullet_reloading:
             self.bullet_reloading = True
+            self.bullet_reload_last = time
 
         self.player.action(keys)
         self.player.update()
@@ -64,7 +65,7 @@ class Game:
         for asteroid in self.asteroids:
             asteroid.movement()
             asteroid.update()
-            self.player.check_collision(asteroid)
+            self.player.check_collision(asteroid, time)
             if asteroid.health <= 0:
                 self.asteroids.pop(self.asteroids.index(asteroid))
 
@@ -93,6 +94,6 @@ class Game:
 
         for asteroid in self.asteroids:
             asteroid.draw(surface)
-
+            
         self.health_bar.draw(surface)
         self.bullet_magazine.draw(surface)

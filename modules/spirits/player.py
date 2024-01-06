@@ -10,7 +10,7 @@ class Player:
 
         self.hit_detection_cooldown = 500
         self.last_hit = 0
-        self.body_damage = 30
+        self.body_damage = 15
 
         self.health = 100
         self.rotation_speed_current = 0
@@ -25,27 +25,24 @@ class Player:
 
     def action(self, keys) -> None:
         if keys[self.key_straight] and self.movement_speed_current < self.movement_speed_max:
-            self.movement_speed_current += 0.5
+            self.movement_speed_current += 0.25
         elif self.movement_speed_current > 0:
-            self.movement_speed_current -= 0.25
+            self.movement_speed_current -= 0.1
 
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
-        if self.movement_speed_current == 0:
-            self.rotation_speed_current = 1.25
-        else:
-            self.rotation_speed_current = 2.5
+        self.rotation_speed_current = 1.5 + self.movement_speed_current // 10
 
         if keys[self.key_left]:
             self.angle += self.rotation_speed_current
         elif keys[self.key_right]:
             self.angle -= self.rotation_speed_current
 
-    def check_collision(self, other_spirit) -> None:
-        if self.hit_detection_cooldown < pygame.time.get_ticks() - self.last_hit:
+    def check_collision(self, other_spirit, time) -> None:
+        if self.hit_detection_cooldown < time - self.last_hit:
             if self.rect.colliderect(other_spirit.rect):
-                self.last_hit = pygame.time.get_ticks()
+                self.last_hit = time
                 self.health -= other_spirit.damage
                 other_spirit.health -= self.body_damage
                 print(other_spirit.health)
