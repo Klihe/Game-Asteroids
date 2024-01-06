@@ -43,16 +43,17 @@ class Player:
 
     def check_collision(self, other_spirit) -> None:
         if self.damage_detection_cooldown < pygame.time.get_ticks() - self.last_damage:
-            if self.center.colliderect(other_spirit):
+            if self.rect.colliderect(other_spirit.rect):
                 self.last_damage = pygame.time.get_ticks()
-                self.health -= 25
+                self.health -= other_spirit.damage
+                print(self.health)
                 self.image = pygame.image.load("source/rocket_hit.png")
             else:
                 self.image = pygame.image.load("source/rocket.png")
 
     def update(self) -> None:
         self.image_rotate = pygame.transform.rotate(self.image, self.angle)
-        self.center = self.image_rotate.get_rect(center=(self.x, self.y))
+        self.rect = self.image_rotate.get_rect(center=(self.x, self.y))
 
     def draw(self, surface) -> None:
-        surface.blit(self.image_rotate, self.center)
+        surface.blit(self.image_rotate, self.rect)

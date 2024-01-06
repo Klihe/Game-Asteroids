@@ -31,7 +31,7 @@ class Game:
         
         if self.bullet_cooldown < pygame.time.get_ticks() - self.bullet_last:
             if keys[pygame.K_SPACE]:
-                self.bullets.append(Projectile(self.player.center.center, self.player.angle, self.player.movement_speed_current))
+                self.bullets.append(Projectile(self.player.rect.center, self.player.angle, self.player.movement_speed_current))
                 self.bullet_last = pygame.time.get_ticks()
             for bullet in self.bullets:
                 if bullet.rect.x > Config.WINDOW_WIDTH or bullet.rect.x < 0 or bullet.rect.y > Config.WINDOW_HEIGHT or bullet.rect.y < 0:
@@ -47,12 +47,15 @@ class Game:
         for asteroid in self.asteroids:
             asteroid.movement()
             asteroid.update()
-            self.player.check_collision(asteroid.rect)
+            self.player.check_collision(asteroid)
 
         for i, asteroid1 in enumerate(self.asteroids):
             for j, asteroid2 in enumerate(self.asteroids):
                 if i != j:
                     asteroid1.check_collision_asteroid(asteroid2)
+
+        for asteroid in self.asteroids:
+            asteroid.check_collision_asteroid(self.player)
 
         for asteroid in self.asteroids:
             for bullet in self.bullets:
@@ -64,8 +67,6 @@ class Game:
     def draw(self, surface) -> None:
         surface.fill(Color.BLACK)
 
-        self.health_bar.draw(surface)
-
         for bullet in self.bullets:
             bullet.draw(surface)
 
@@ -73,3 +74,5 @@ class Game:
 
         for asteroid in self.asteroids:
             asteroid.draw(surface)
+
+        self.health_bar.draw(surface)
