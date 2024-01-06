@@ -60,8 +60,10 @@ class Game:
         for asteroid in self.asteroids:
             for bullet in self.bullets:
                 if asteroid.rect.colliderect(bullet.rect):
-                    self.asteroids.pop(self.asteroids.index(asteroid))
+                    asteroid.health -= bullet.damage
                     self.bullets.pop(self.bullets.index(bullet))
+                    if asteroid.health <= 0:
+                        self.asteroids.pop(self.asteroids.index(asteroid))
 
 
     def draw(self, surface) -> None:

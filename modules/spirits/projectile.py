@@ -6,6 +6,7 @@ class Projectile:
     def __init__(self, center, angle, speed) -> None:
         self.center = center
         self.angle = angle
+        self.damage = 15
         self.movement_speed = 25 + speed
 
         self.image = pygame.image.load("source/bullet.png")
