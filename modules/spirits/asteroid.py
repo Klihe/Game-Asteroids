@@ -14,14 +14,14 @@ class Asteroid:
         self.size = random.choice(["small", "medium", "large"])
 
         if self.size == "small":
-            self.health = 10
-            self.damage = 15
-        elif self.size == "medium":
             self.health = 15
-            self.damage = 30
+            self.damage = 10
+        elif self.size == "medium":
+            self.health = 30
+            self.damage = 15
         elif self.size == "large":
-            self.damage = 20
             self.health = 45       
+            self.damage = 20
 
         self.image = pygame.image.load("source/asteroid/" + self.size + ".png")
         self.rect = self.image.get_rect(center=(self.x, self.y))
