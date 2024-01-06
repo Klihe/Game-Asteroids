@@ -8,14 +8,14 @@ class Player:
         self.y = y
         self.angle = 0
 
-        self.damage_detection_cooldown = 2500
+        self.damage_detection_cooldown = 1000
         self.last_damage = 0
 
         self.health = 100
         self.rotation_speed_current = 0
         self.rotation_speed_max = 30
         self.movement_speed_current = 0
-        self.movement_speed_max = 10
+        self.movement_speed_max = 7
 
         self.key_straight = key_straight
         self.key_left = key_left
@@ -53,7 +53,6 @@ class Player:
     def update(self) -> None:
         self.image_rotate = pygame.transform.rotate(self.image, self.angle)
         self.center = self.image_rotate.get_rect(center=(self.x, self.y))
-        print(self.center.center)
 
     def draw(self, surface) -> None:
         surface.blit(self.image_rotate, self.center)

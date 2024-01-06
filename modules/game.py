@@ -3,12 +3,14 @@ import pygame
 from modules.config import Config
 from modules.color import Color
 from modules.spirits.player import Player
+from modules.overlay.health_bar import Health_Bar
 from modules.spirits.projectile import Projectile
 from modules.spirits.asteroid import Asteroid
 
 class Game:
     def __init__(self) -> None:
         self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d)
+        self.health_bar = Health_Bar(Config.WINDOW_WIDTH//2 - 150, Config.WINDOW_HEIGHT - 45)
 
         self.bullets = []
         self.bullet_cooldown = 175
@@ -25,6 +27,7 @@ class Game:
         ]
 
     def update(self, keys) -> None:
+        self.health_bar.update(self.player.health)
         
         if self.bullet_cooldown < pygame.time.get_ticks() - self.bullet_last:
             if keys[pygame.K_SPACE]:
@@ -60,6 +63,8 @@ class Game:
 
     def draw(self, surface) -> None:
         surface.fill(Color.BLACK)
+
+        self.health_bar.draw(surface)
 
         for bullet in self.bullets:
             bullet.draw(surface)
