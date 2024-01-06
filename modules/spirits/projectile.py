@@ -3,21 +3,17 @@ import pygame
 import math
 
 class Projectile:
-    def __init__(self, x, y, angle, speed) -> None:
-        self.x = x
-        self.y = y
+    def __init__(self, center, angle, speed) -> None:
+        self.center = center
         self.angle = angle
         self.movement_speed = 25 + speed
 
         self.image = pygame.image.load("source/bullet.png")
-        self.rect = self.image.get_rect(center=(self.x, self.y))
+        self.rect = self.image.get_rect(center=(self.center))
 
     def movement(self) -> None:
-        self.x += int(self.movement_speed * math.sin(math.radians(self.angle)))
-        self.y += int(self.movement_speed * math.cos(math.radians(self.angle)))
-
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x += int(self.movement_speed * math.sin(math.radians(self.angle)))
+        self.rect.y += int(self.movement_speed * math.cos(math.radians(self.angle)))
     
     def update(self) -> None:
         self.image_rotate = pygame.transform.rotate(self.image, self.angle)
