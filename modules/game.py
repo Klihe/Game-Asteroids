@@ -24,8 +24,8 @@ class Game:
         self.score = Score(Config.WINDOW_WIDTH//2 + 35, Config.WINDOW_HEIGHT - 52, self.player.score)
 
         self.bullets = []
-        self.bullet_reload_cooldown = 1000
-        self.bullet_reload_last = 1000
+        self.bullet_reload_cooldown = 750
+        self.bullet_reload_last = 750
         self.bullet_reloading = False
         self.bullet_fire_cooldown = 125
         self.bullet_fire_last = 0
@@ -81,7 +81,6 @@ class Game:
             self.player.update()
             self.player.action(keys)
             self.score.update(self.player.score)
-            print(self.player.score)
 
             self.health_bar.update(self.player.health)
             
@@ -99,8 +98,11 @@ class Game:
                 self.bullet_magazine.ammo = 10
                 self.bullet_reloading = False
             elif (keys[pygame.K_r] and self.bullet_magazine.ammo < 10) or (self.bullet_magazine.ammo == 0) and not self.bullet_reloading:
+                if self.bullet_magazine.ammo == 0:
+                    self.bullet_reload_last = time + self.bullet_fire_cooldown
+                else:
+                    self.bullet_reload_last = time
                 self.bullet_reloading = True
-                self.bullet_reload_last = time
 
             self.bullet_magazine.update()
 

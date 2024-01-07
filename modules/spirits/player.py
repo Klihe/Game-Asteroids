@@ -16,7 +16,8 @@ class Player:
         self.body_damage = 15
 
         self.health = 100
-        self.rotation_speed_current = 0
+        
+        self.rotation_speed_current = 2.5
         self.movement_speed_current = 0
         self.movement_speed_max = 10
 
@@ -31,7 +32,7 @@ class Player:
     def action(self, keys) -> None:
         if keys[self.key_straight] and self.movement_speed_current < self.movement_speed_max:
             self.movement_speed_current += 0.25
-        elif self.movement_speed_current > 0:
+        elif self.movement_speed_current > 2.5:
             self.movement_speed_current -= 0.1
 
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))

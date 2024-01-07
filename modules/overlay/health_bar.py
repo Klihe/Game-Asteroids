@@ -6,20 +6,30 @@ class Health_Bar:
         self.x = x
         self.y = y
 
-        self.image = pygame.image.load("source/playing/health_bar/green.png")
+        self.image = pygame.image.load("source/playing/health_bar/100.png")
 
     def update(self, health):
         if health <= 10:
-            color = "black"
+            color = "10"
+        elif health <= 20:
+            color = "20"
+        elif health <= 30:
+            color = "30"
+        elif health <= 40:
+            color = "40"
         elif health <= 50:
-            color = "red"
+            color = "50"
+        elif health <= 60:
+            color = "60"
         elif health <= 70:
-            color = "orange"
+            color = "70"
+        elif health <= 80:
+            color = "80"
         elif health <= 90:
-            color = "yellow"
+            color = "90"
         elif health <= 100:
-            color = "green"
-
+            color = "100"
+    
         self.image = pygame.image.load("source/playing/health_bar/" + color + ".png")
     
     def draw(self, surface):
