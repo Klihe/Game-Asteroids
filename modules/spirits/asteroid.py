@@ -9,19 +9,22 @@ class Asteroid:
         self.y = random.choice([random.randint(100, 500), random.randint(750, 980)])
         self.size = random.choice(["small", "medium", "large"])
 
-        self.movement_speed = random.randint(5, 7)
+        self.movement_speed = random.randint(3, 5)
         self.direction = random.randint(1, 359)
         self.angle_rotate = random.randint(1, 359)       
 
         if self.size == "small":
             self.health = 15
             self.damage = 10
+            self.score = 5
         elif self.size == "medium":
             self.health = 30
             self.damage = 15
+            self.score = 10
         elif self.size == "large":
             self.health = 45       
             self.damage = 20
+            self.score = 15
 
         self.image = pygame.image.load("source/playing/asteroid/" + self.size + ".png")
         self.rect = self.image.get_rect(center=(self.x, self.y))

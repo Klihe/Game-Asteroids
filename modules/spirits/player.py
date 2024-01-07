@@ -9,6 +9,8 @@ class Player:
         self.y = y
         self.angle = 0
 
+        self.score = 0
+
         self.hit_detection_cooldown = 500
         self.last_hit = 0
         self.body_damage = 15

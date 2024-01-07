@@ -1,5 +1,6 @@
 # menu.py
 import pygame
+from modules.color import Color
 
 class Menu:
     def __init__(self, x, y) -> None:
@@ -19,4 +20,5 @@ class Menu:
         return 0
 
     def draw(self, surface) -> None:
+        surface.fill(Color.BLACK)
         surface.blit(self.start_button_image, self.start_button_rect)

@@ -7,6 +7,7 @@ from modules.game_state.menu import Menu
 from modules.game_state.game_over import Game_Over
 from modules.spirits.player import Player
 from modules.overlay.health_bar import Health_Bar
+from modules.overlay.score import Score
 from modules.spirits.projectile import Projectile
 from modules.overlay.ammo import Ammo
 from modules.spirits.asteroid import Asteroid
@@ -20,6 +21,7 @@ class Game:
         self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d)
         self.health_bar = Health_Bar(Config.WINDOW_WIDTH//2 - 150, Config.WINDOW_HEIGHT - 45)
         self.bullet_magazine = Ammo(Config.WINDOW_WIDTH//2 - 147, Config.WINDOW_HEIGHT - 75, 10)
+        self.score = Score(Config.WINDOW_WIDTH//2 + 35, Config.WINDOW_HEIGHT - 52, self.player.score)
 
         self.bullets = []
         self.bullet_reload_cooldown = 1000
@@ -59,6 +61,7 @@ class Game:
                 asteroid.update()
                 self.player.check_collision(asteroid, time)
                 if asteroid.health <= 0:
+                    self.player.score += asteroid.score
                     self.asteroids.pop(self.asteroids.index(asteroid))
 
             for i, asteroid1 in enumerate(self.asteroids):
@@ -77,6 +80,8 @@ class Game:
 
             self.player.update()
             self.player.action(keys)
+            self.score.update(self.player.score)
+            print(self.player.score)
 
             self.health_bar.update(self.player.health)
             
@@ -126,6 +131,7 @@ class Game:
                 
             self.health_bar.draw(surface)
             self.bullet_magazine.draw(surface)
+            self.score.draw(surface)
         
         elif self.state == Game_State.GAME_OVER:
-            self.game_over.draw(surface)
+            self.game_over.draw(surface, self.player.score)
