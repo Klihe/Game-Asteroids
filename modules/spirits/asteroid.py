@@ -23,8 +23,9 @@ class Asteroid:
             self.health = 45       
             self.damage = 20
 
-        self.image = pygame.image.load("source/asteroid/" + self.size + ".png")
+        self.image = pygame.image.load("source/playing/asteroid/" + self.size + ".png")
         self.rect = self.image.get_rect(center=(self.x, self.y))
+        self.image_rotate = pygame.transform.rotate(self.image, self.angle_rotate)
 
     def movement(self) -> None:
         if self.rect.x > Config.WINDOW_WIDTH - self.rect.width or self.rect.x < 0 or self.rect.y > Config.WINDOW_HEIGHT - self.rect.height or self.rect.y < 0:

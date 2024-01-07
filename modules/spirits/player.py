@@ -1,6 +1,7 @@
 # player.py
 import pygame
 import math
+from modules.config import Config
 
 class Player:
     def __init__(self, x, y, key_straight, key_left, key_right) -> None:
@@ -21,7 +22,9 @@ class Player:
         self.key_left = key_left
         self.key_right = key_right
 
-        self.image = pygame.image.load("source/rocket.png")
+        self.image = pygame.image.load("source/playing/rocket.png")
+        self.image_rotate = pygame.transform.rotate(self.image, self.angle)
+        self.rect = self.image_rotate.get_rect(center=(self.x, self.y))
 
     def action(self, keys) -> None:
         if keys[self.key_straight] and self.movement_speed_current < self.movement_speed_max:
@@ -32,7 +35,10 @@ class Player:
         self.x += int(self.movement_speed_current * math.sin(math.radians(self.angle)))
         self.y += int(self.movement_speed_current * math.cos(math.radians(self.angle)))
 
-        self.rotation_speed_current = 1.5 + self.movement_speed_current // 10
+        self.x = max(60, min(self.x, Config.WINDOW_WIDTH - 60))
+        self.y = max(60, min(self.y, Config.WINDOW_HEIGHT - 60))
+
+        self.rotation_speed_current = 1.5 + self.movement_speed_current // 5
 
         if keys[self.key_left]:
             self.angle += self.rotation_speed_current
@@ -45,10 +51,9 @@ class Player:
                 self.last_hit = time
                 self.health -= other_spirit.damage
                 other_spirit.health -= self.body_damage
-                print(other_spirit.health)
-                self.image = pygame.image.load("source/rocket_hit.png")
+                self.image = pygame.image.load("source/playing/rocket_hit.png")
             else:
-                self.image = pygame.image.load("source/rocket.png")
+                self.image = pygame.image.load("source/playing/rocket.png")
 
     def update(self) -> None:
         self.image_rotate = pygame.transform.rotate(self.image, self.angle)

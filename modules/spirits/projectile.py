@@ -9,7 +9,7 @@ class Projectile:
         self.damage = 15
         self.movement_speed = 25 + speed
 
-        self.image = pygame.image.load("source/bullet.png")
+        self.image = pygame.image.load("source/playing/bullet.png")
         self.rect = self.image.get_rect(center=(self.center))
 
     def movement(self) -> None:

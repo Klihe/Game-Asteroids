@@ -7,13 +7,13 @@ class Ammo:
         self.y = y
         self.ammo = ammo
 
-        self.image = pygame.image.load("source/ammo/10.png")
+        self.image = pygame.image.load("source/playing/ammo/10.png")
 
     def ammo_minus(self):
         self.ammo -= 1
 
     def update(self):
-        self.image = pygame.image.load("source/ammo/" + f"{self.ammo}" + ".png")
+        self.image = pygame.image.load("source/playing/ammo/" + f"{self.ammo}" + ".png")
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))

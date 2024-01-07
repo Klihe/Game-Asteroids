@@ -6,6 +6,8 @@ class Health_Bar:
         self.x = x
         self.y = y
 
+        self.image = pygame.image.load("source/playing/health_bar/green.png")
+
     def update(self, health):
         if health <= 10:
             color = "black"
@@ -18,7 +20,7 @@ class Health_Bar:
         elif health <= 100:
             color = "green"
 
-        self.image = pygame.image.load("source/health_bar/" + color + ".png")
+        self.image = pygame.image.load("source/playing/health_bar/" + color + ".png")
     
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
