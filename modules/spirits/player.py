@@ -17,8 +17,8 @@ class Player:
 
         self.health = 100
         
-        self.rotation_speed_current = 2.5
-        self.movement_speed_current = 0
+        self.rotation_speed_current = 0
+        self.movement_speed_current = 2.5
         self.movement_speed_max = 10
 
         self.key_straight = key_straight

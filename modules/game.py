@@ -8,6 +8,7 @@ from modules.game_state.game_over import Game_Over
 from modules.spirits.player import Player
 from modules.overlay.health_bar import Health_Bar
 from modules.overlay.score import Score
+from modules.file.high_score import High_Score
 from modules.spirits.projectile import Projectile
 from modules.overlay.ammo import Ammo
 from modules.spirits.asteroid import Asteroid
@@ -17,6 +18,7 @@ class Game:
         self.state = Game_State.MENU
         self.menu = Menu(Config.WINDOW_WIDTH//2, Config.WINDOW_HEIGHT - 125)
         self.game_over = Game_Over(Config.WINDOW_WIDTH//2, Config.WINDOW_HEIGHT//2)
+        self.high_score = High_Score()
 
         self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d)
         self.health_bar = Health_Bar(Config.WINDOW_WIDTH//2 - 150, Config.WINDOW_HEIGHT - 45)
@@ -43,6 +45,8 @@ class Game:
     def update(self, keys, time) -> None:
 
         if self.state == Game_State.MENU:
+            self.high_score.read()
+
             if self.menu.update(pygame.mouse.get_pos(), pygame.mouse.get_pressed()):
                 self.state = Game_State.PLAYING
 
@@ -107,14 +111,14 @@ class Game:
             self.bullet_magazine.update()
 
             for bullet in self.bullets:
-                bullet.movement()
+                bullet.action()
                 bullet.update()
             
             if self.player.health <= 0:
                 self.state = Game_State.GAME_OVER
 
         elif self.state == Game_State.GAME_OVER:
-            pass
+            self.high_score.save(self.player.score)
 
     def draw(self, surface) -> None:
         if self.state == Game_State.MENU:
@@ -137,3 +141,4 @@ class Game:
         
         elif self.state == Game_State.GAME_OVER:
             self.game_over.draw(surface, self.player.score)
+            self.high_score.draw(surface)
