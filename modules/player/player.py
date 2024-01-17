@@ -4,6 +4,8 @@ import pygame
 import math
 from modules.config import Config
 
+from modules.player.bullet import Bullet
+
 from pygame import sprite
 from pygame import mask
 
@@ -27,6 +29,15 @@ class Player(sprite.Sprite):
             "body_damage" : 15
         }
 
+        # ammo
+        self.ammo = {
+            # object
+            "bullets" : [],
+
+            "max" : 3,
+            "magazine" : 10
+        }
+
         # keys
         self.keys = {
             # movement
@@ -39,11 +50,13 @@ class Player(sprite.Sprite):
             "fire" : k_fire
         }
 
+        # speed
         self.speed = {
             "current" : 2,
             "max" : 10
         }
 
+        # image/body
         self.source_image = pygame.image.load("source/playing/rocket/rocket.png")
         self.image = pygame.transform.rotate(self.source_image, self.position["angle"])
         self.mask = pygame.mask.from_surface(self.image)
@@ -67,12 +80,20 @@ class Player(sprite.Sprite):
         self.position["x"] = max(60, min(self.position["x"], Config.WINDOW_WIDTH - 60))
         self.position["y"] = max(60, min(self.position["y"], Config.WINDOW_HEIGHT - 60))
 
-    def fire(self, keys) -> None:
-        pass
+    # def fire(self, keys) -> None:
+    #     if keys[self.keys["fire"]]:
+    #         self.ammo["bullets"].append(Bullet(self.position["x"], self.position["y"], self.position["angle"], self.speed["current"]))
 
     def update(self) -> None:
         self.image = pygame.transform.rotate(self.source_image, self.position["angle"])
         self.body = self.image.get_rect(center=(self.position["x"], self.position["y"]))
 
+        # for bullet in self.ammo["bullets"]:
+        #     bullet.movement()
+        #     bullet.update()
+
     def draw(self, surface) -> None:
         surface.blit(self.image, self.body)
+
+        # for bullet in self.ammo["bullets"]:
+        #     bullet.draw(surface)
