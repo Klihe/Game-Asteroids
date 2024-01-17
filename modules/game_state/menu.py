@@ -1,6 +1,6 @@
 # menu.py
 
-class Menur:
+class Menu:
     def __init__(self) -> None:
         pass
 
