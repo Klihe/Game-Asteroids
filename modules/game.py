@@ -8,7 +8,7 @@ from modules.game_state.game_over import Game_Over
 from modules.player.player import Player
 from modules.player.player_overlay import Player_overlay
 from modules.file.high_score import High_Score
-from modules.spirits.asteroid import Asteroid
+from modules.entity.asteroid import Asteroid
 
 class Game:
     def __init__(self) -> None:
@@ -40,6 +40,16 @@ class Game:
                 self.state = Game_State.PLAYING
 
         elif self.state == Game_State.PLAYING:
+
+
+            for asteroid in self.asteroids:
+                collision = False
+                if asteroid.mask.overlap(self.player.mask, (asteroid.x - self.player.x, asteroid.y - self.player.y)) and not collision:
+                    asteroid.angle += 45
+                    collision = True
+                else:
+                    collision = False
+                asteroid.update()
 
             # if len(self.asteroids) < 5:
             #     if int(time) % 100 == 0:

@@ -95,6 +95,7 @@ class Player:
 
         # update image
         self.image = pygame.transform.rotate(self.src_image, self.angle)
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
     def draw(self, surface) -> None:
