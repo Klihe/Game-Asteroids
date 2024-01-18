@@ -34,7 +34,7 @@ class Player(sprite.Sprite):
             # object
             "bullets" : [],
 
-            "max" : 3,
+            "max" : 5,
             "magazine" : 10
         }
 
@@ -69,9 +69,9 @@ class Player(sprite.Sprite):
             self.speed["current"] -= 0.1
 
         if keys[self.keys["left"]]:
-            self.position["angle"] += self.speed["current"] // 2.5
+            self.position["angle"] += 1.5 + self.speed["current"] // 5
         elif keys[self.keys["right"]]:
-            self.position["angle"] -= self.speed["current"] // 2.5
+            self.position["angle"] -= 1.5 + self.speed["current"] // 5
 
         self.position["x"] += int(self.speed["current"] * math.sin(math.radians(self.position["angle"])))
         self.position["y"] += int(self.speed["current"] * math.cos(math.radians(self.position["angle"])))
@@ -80,20 +80,22 @@ class Player(sprite.Sprite):
         self.position["x"] = max(60, min(self.position["x"], Config.WINDOW_WIDTH - 60))
         self.position["y"] = max(60, min(self.position["y"], Config.WINDOW_HEIGHT - 60))
 
-    # def fire(self, keys) -> None:
-    #     if keys[self.keys["fire"]]:
-    #         self.ammo["bullets"].append(Bullet(self.position["x"], self.position["y"], self.position["angle"], self.speed["current"]))
+    def fire(self, keys) -> None:
+        if keys[self.keys["fire"]] and len(self.ammo["bullets"]) < self.ammo["max"]:
+            self.ammo["bullets"].append(Bullet(self.position["x"], self.position["y"], self.position["angle"], self.speed["current"]))
 
     def update(self) -> None:
         self.image = pygame.transform.rotate(self.source_image, self.position["angle"])
         self.body = self.image.get_rect(center=(self.position["x"], self.position["y"]))
 
-        # for bullet in self.ammo["bullets"]:
-        #     bullet.movement()
-        #     bullet.update()
+        for bullet in self.ammo["bullets"]:
+            bullet.movement()
+            bullet.update()
+            if bullet.position["x"] > Config.WINDOW_WIDTH or bullet.position["x"] < 0 or bullet.position["y"] > Config.WINDOW_HEIGHT or bullet.position["y"] < 0:
+                self.ammo["bullets"].pop(self.ammo["bullets"].index(bullet))
 
     def draw(self, surface) -> None:
-        surface.blit(self.image, self.body)
+        for bullet in self.ammo["bullets"]:
+            bullet.draw(surface)
 
-        # for bullet in self.ammo["bullets"]:
-        #     bullet.draw(surface)
+        surface.blit(self.image, self.body)

@@ -23,7 +23,7 @@ class Game:
 
         elif self.game_state == Game_State.PLAYING:
             self.player.movement(keys)
-            # self.player.fire(keys)
+            self.player.fire(keys)
             self.player.update()
 
         elif self.game_state == Game_State.GAME_OVER:
