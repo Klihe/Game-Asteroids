@@ -20,7 +20,7 @@ class Game:
         self.game_over = Game_Over(Config.WINDOW_WIDTH//2, Config.WINDOW_HEIGHT//2)
         self.high_score = High_Score()
 
-        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d)
+        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_SPACE)
         self.health_bar = Health_Bar(Config.WINDOW_WIDTH//2 - 150, Config.WINDOW_HEIGHT - 45)
         self.bullet_magazine = Ammo(Config.WINDOW_WIDTH//2 - 147, Config.WINDOW_HEIGHT - 75, 10)
         self.score = Score(Config.WINDOW_WIDTH//2 + 35, Config.WINDOW_HEIGHT - 52, self.player.score)
@@ -63,7 +63,6 @@ class Game:
             for asteroid in self.asteroids:
                 asteroid.movement()
                 asteroid.update()
-                self.player.check_collision(asteroid, time)
                 if asteroid.health <= 0:
                     self.player.score += asteroid.score
                     self.asteroids.pop(self.asteroids.index(asteroid))
@@ -83,7 +82,7 @@ class Game:
                         self.bullets.pop(self.bullets.index(bullet))
 
             self.player.update()
-            self.player.action(keys)
+            self.player.movement(keys)
             self.score.update(self.player.score)
 
             self.health_bar.update(self.player.health)
@@ -91,7 +90,7 @@ class Game:
             if self.bullet_fire_cooldown < time - self.bullet_fire_last and len(self.bullets) < 3:
                 if keys[pygame.K_SPACE] and self.bullet_magazine.ammo > 0 and not self.bullet_reloading:
                     self.bullet_magazine.ammo_minus()
-                    self.bullets.append(Projectile(self.player.rect.center, self.player.angle, self.player.movement_speed_current))
+                    self.bullets.append(Projectile(self.player.rect.center, self.player.angle, self.player.movement_speed))
                     self.bullet_fire_last = time
             for bullet in self.bullets:
                 if bullet.rect.x > Config.WINDOW_WIDTH or bullet.rect.x < 0 or bullet.rect.y > Config.WINDOW_HEIGHT or bullet.rect.y < 0:
