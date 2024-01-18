@@ -30,7 +30,7 @@ class Player:
         self.src_image = pygame.image.load("source/playing/rocket.png")
         self.image = pygame.transform.rotate(self.src_image, self.angle)
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect = self.image_rotate.get_rect(center=(self.x, self.y))
+        self.rect = self.image.get_rect(center=(self.x, self.y))
 
     def movement(self, keys) -> None:
         # movement
