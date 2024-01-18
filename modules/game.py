@@ -15,9 +15,10 @@ class Game:
         self.state = Game_State.MENU
         self.menu = Menu(Config.WINDOW_WIDTH//2, Config.WINDOW_HEIGHT - 125)
         self.game_over = Game_Over(Config.WINDOW_WIDTH//2, Config.WINDOW_HEIGHT//2)
+
         self.high_score = High_Score()
 
-        self.player = Player(Config.WINDOW_WIDTH//2 - 60, Config.WINDOW_HEIGHT//2 - 60, pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_r)
+        self.player = Player(pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_SPACE, pygame.K_r)
         self.player_overlay = Player_overlay()
 
         self.asteroids = [
@@ -40,28 +41,25 @@ class Game:
 
         elif self.state == Game_State.PLAYING:
 
-            if len(self.asteroids) < 5:
-                if int(time) % 100 == 0:
-                    self.asteroids.append(Asteroid())
-            else:
-                if int(time) % 200 == 0:
-                    self.asteroids.append(Asteroid())
+            # if len(self.asteroids) < 5:
+            #     if int(time) % 100 == 0:
+            #         self.asteroids.append(Asteroid())
+            # else:
+            #     if int(time) % 200 == 0:
+            #         self.asteroids.append(Asteroid())
 
+            # for asteroid in self.asteroids:
+            #     asteroid.movement()
+            #     asteroid.update()
+            #     asteroid.check_collision_asteroid(self.player)
+            #     if asteroid.health <= 0:
+            #         self.player.score += asteroid.score
+            #         self.asteroids.pop(self.asteroids.index(asteroid))
 
-            for asteroid in self.asteroids:
-                asteroid.movement()
-                asteroid.update()
-                if asteroid.health <= 0:
-                    self.player.score += asteroid.score
-                    self.asteroids.pop(self.asteroids.index(asteroid))
-
-            for i, asteroid1 in enumerate(self.asteroids):
-                for j, asteroid2 in enumerate(self.asteroids):
-                    if i != j:
-                        asteroid1.check_collision_asteroid(asteroid2)
-
-            for asteroid in self.asteroids:
-                asteroid.check_collision_asteroid(self.player)
+            # for i, asteroid1 in enumerate(self.asteroids):
+            #     for j, asteroid2 in enumerate(self.asteroids):
+            #         if i != j:
+            #             asteroid1.check_collision_asteroid(asteroid2)
 
             self.player.update()
             self.player.movement(keys)

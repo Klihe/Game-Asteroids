@@ -6,10 +6,10 @@ from modules.config import Config
 from modules.player.bullet import Bullet
 
 class Player:
-    def __init__(self, x, y, k_straight, k_left, k_right, k_fire, k_reload) -> None:
+    def __init__(self, k_straight, k_left, k_right, k_fire, k_reload) -> None:
         # position
-        self.x = x
-        self.y = y
+        self.x = Config.WINDOW_WIDTH//2 - 60
+        self.y = Config.WINDOW_HEIGHT//2 - 60
         self.angle = 0
 
         # stats
@@ -104,3 +104,16 @@ class Player:
 
         # draw image
         surface.blit(self.image, self.rect)
+
+    def reset(self):
+        # position
+        self.x = Config.WINDOW_WIDTH//2 - 60
+        self.y = Config.WINDOW_HEIGHT//2 - 60
+        self.angle = 0
+
+        # stats
+        self.score = 0
+        self.health = 100
+
+        # bullets
+        self.magazine = 10
